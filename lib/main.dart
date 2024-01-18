@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 void main() {
   runApp(const MyApp());
 }
-
+// final AppRouter _appRouter = AppRouter(routeGuard: RouteGuard(),navigatorKey: navigatorKey);
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -21,6 +21,8 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
+      // routeInformationParser: _appRouter.defaultRouteParser(),
+      // routerDelegate: _appRouter.delegate(),
       routerConfig: appRouter.config(initialRoutes: [LoginRoute()]),
     );
   }

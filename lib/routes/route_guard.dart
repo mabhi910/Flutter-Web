@@ -1,41 +1,35 @@
 
-import 'package:anointing_web_project/routes/web_app_router.gr.dart';
+import 'package:anointing_web_project/helper/shared_pref.dart';
 import 'package:auto_route/auto_route.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class RouteGuard extends AutoRedirectGuard {
-  final Future<SharedPreferences> _preferences = SharedPreferences.getInstance();
-
   @override
   void onNavigation(NavigationResolver resolver, StackRouter router) async {
-    final SharedPreferences preferences = await _preferences;
 
-    print(preferences.getBool("User-detail"));
-    print("76987${preferences.getBool("login")}");
+    bool login=await SharedPref.getBool(key: "login");
+    print(login);
     print(router.currentPath);
-
-
-    if(router.currentPath == "/login"){
-      print("ksakdf");
-      if(preferences.getBool("User-detail") !=null){
-        router.push(LoginRoute());
+    if(router.currentPath.contains("/login")){
+      if(await SharedPref.getBool(key: "login") == true){
+        router.pushNamed('/home/dashboard');
       }
       else{
-        print("ksakdfghdf");
+
       }
     }
-    if(router.currentPath == "/dashboard"){
-      router.replace(HomeRoute(),);
-      router.navigationHistory.dispose();
-      if(router.currentPath == "/login"){
-        print("lsdjfal;k");
-        resolver.next();
-      }else{
-        print("sldl;adjsf");
+    if(router.currentPath.contains("/home")){
+      if(await SharedPref.getBool(key:'login') == false||await SharedPref.getBool(key:'login') == null){
+        if(router.currentPath == "/login"){
+          router.pushNamed("/login");
+        }else{
+          if(router.currentPath.contains("/home")){
+            router.pushNamed("/login");
+            resolver.next();
+          }}}
+      else{
         resolver.next();
       }
     }else{
-      print("ksakskhdfkadf");
       resolver.next();
     }
   }

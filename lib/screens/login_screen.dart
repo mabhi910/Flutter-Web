@@ -1,4 +1,5 @@
 import 'package:anointing_web_project/helper/app_strings.dart';
+import 'package:anointing_web_project/helper/shared_pref.dart';
 import 'package:anointing_web_project/routes/web_app_router.gr.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +16,8 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return  Scaffold(
       body: Center(child: GestureDetector(
-        onTap: (){
+        onTap: ()async{
+          await SharedPref.setBool(key: "login", data: true);
           context.router.replace(const HomeRoute());
         },
         child: const Text(Strings.welcomeLogin),
